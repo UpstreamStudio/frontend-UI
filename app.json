@@ -2,7 +2,8 @@
   "expo": {
     "name": "upstreamUI",
     "slug": "upstreamUI",
-    "version": "1.0.0",
+    "version": "0.0.1",
+    "entryPoint": "./lib/App",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -13,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
