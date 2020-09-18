@@ -17,7 +17,7 @@ npm install
 ```
 
 ```
-npm run start
+npm run dev (개발전용)
 ```
 
 **자세한 사항은 package.json script 참조**
