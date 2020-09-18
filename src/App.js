@@ -14,7 +14,8 @@ import { default as themeColors } from "./theme.json";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { AppNavigator } from "./components/navigation.component";
+import { AppNavigator } from "./frames/navigation.component";
+import { SignInFrame } from "./frames/SignIn.component";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeContext } from "./theme-context";
 
@@ -33,7 +34,7 @@ import { ThemeContext } from "./theme-context";
 // );
 
 const App = (): any => {
-  const [theme, setTheme] = React.useState("light");
+  const [theme: string, setTheme] = React.useState("light");
 
   const toggleTheme = () => {
     const nextTheme = (theme) => (theme === "light" ? "dark" : "light");
@@ -49,7 +50,7 @@ const App = (): any => {
             {...eva}
             theme={{ ...eva[theme], ...themeColors }}
           >
-            <AppNavigator />
+            <SignInFrame />
           </ApplicationProvider>
         </ThemeContext.Provider>
       </SafeAreaProvider>

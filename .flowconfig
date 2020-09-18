@@ -1,7 +1,7 @@
 [ignore]
 
 [include]
-
+./src/*.json
 [libs]
 
 [lints]
@@ -9,3 +9,6 @@
 [options]
 
 [strict]
+
+[untyped]
+.*/node_modules/*

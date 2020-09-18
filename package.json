@@ -9,7 +9,8 @@
     "build": "flow-remove-types src/ -d lib/",
     "prepublish": "yarn run build",
     "flow": "./node_modules/.bin/flow",
-    "flowstatus": "./node_modules/.bin/flow status"
+    "flowstatus": "./node_modules/.bin/flow status",
+    "dev": "yarn build | yarn start"
   },
   "dependencies": {
     "@eva-design/eva": "^2.0.0",
@@ -34,7 +35,8 @@
     "@babel/core": "^7.8.6",
     "babel-preset-expo": "~8.1.0",
     "flow-bin": "^0.133.0",
-    "flow-remove-types": "^2.133.0"
+    "flow-remove-types": "^2.133.0",
+    "flow-typed": "^3.2.1"
   },
   "private": true
 }
