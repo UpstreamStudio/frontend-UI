@@ -11,13 +11,6 @@ import {
   useTheme,
   withStyles,
 } from "@ui-kitten/components";
-// import { TextButton } from "../components/TextButton.component";
-// import { LoginHero } from "../components/LoginHero.component";
-// import { IdInput, PassInput } from "../components/LoginInputs.component";
-
-type State = {
-  isLoading: boolean,
-};
 
 const styles = {
   safeview: {

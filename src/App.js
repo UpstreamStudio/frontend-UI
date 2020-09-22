@@ -19,20 +19,6 @@ import { SignInFrame } from "./frames/SignIn.component";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeContext } from "./theme-context";
 
-// const style = {
-//   flex: 1,
-//   justifyContent: "center",
-//   alignItems: "center",
-//   backgroundColor: theme["color-primary-600"],
-// };
-
-// const HomeScreen = (props) => (
-//   <Layout style={style}>
-//     <Text category="h1">Main</Text>
-//     <LoginButton />
-//   </Layout>
-// );
-
 const App = (): any => {
   const [theme: string, setTheme] = React.useState("light");
 
