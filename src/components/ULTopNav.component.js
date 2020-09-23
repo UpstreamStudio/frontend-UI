@@ -17,7 +17,9 @@ const InfoIcon = (props) => <Icon {...props} name="info" />;
 
 const LogoutIcon = (props) => <Icon {...props} name="log-out" />;
 
-export const TopNavigationImageTitleShowcase = () => {
+const SearchIcon = (props) => <Icon {...props} name="search-outline" />;
+
+export const userListTopNav = () => {
   const [menuVisible, setMenuVisible] = React.useState(false);
 
   const toggleMenu = () => {
@@ -28,8 +30,11 @@ export const TopNavigationImageTitleShowcase = () => {
     <TopNavigationAction icon={MenuIcon} onPress={toggleMenu} />
   );
 
-  const renderOverflowMenuAction = () => (
+  const renderSearchAction = () => <TopNavigationAction icon={SearchIcon} />;
+
+  const renderRightMenuActions = () => (
     <React.Fragment>
+      <renderSearchAction />
       <OverflowMenu
         anchor={renderMenuAction}
         visible={menuVisible}
@@ -44,14 +49,14 @@ export const TopNavigationImageTitleShowcase = () => {
   const renderTitle = (props) => (
     <View style={styles.titleContainer}>
       <Avatar style={styles.logo} source={require("../../assets/icon.png")} />
-      <Text {...props}>Eva Application</Text>
+      <Text {...props}>학생목록</Text>
     </View>
   );
 
   return (
     <TopNavigation
       title={renderTitle}
-      accessoryRight={renderOverflowMenuAction}
+      accessoryRight={renderRightMenuActions}
     />
   );
 };
