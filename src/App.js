@@ -12,12 +12,15 @@ import {
 } from "@ui-kitten/components";
 import { default as themeColors } from "./theme.json";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
-
-import { NavigationContainer } from "@react-navigation/native";
-import { AppNavigator } from "./frames/navigation.component";
-import { SignInFrame } from "./frames/SignIn.component";
+import { SignInScreen } from "./presentScreens/SignIn.component";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeContext } from "./theme-context";
+// redux
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import rootReducer from "./redux/rootReducer";
+
+const store = createStore(rootReducer);
 
 const App = (): any => {
   const [theme: string, setTheme] = React.useState("light");
@@ -28,19 +31,21 @@ const App = (): any => {
   };
 
   return (
-    <React.Fragment>
-      <SafeAreaProvider>
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
-          <IconRegistry icons={EvaIconsPack} />
-          <ApplicationProvider
-            {...eva}
-            theme={{ ...eva[theme], ...themeColors }}
-          >
-            <SignInFrame />
-          </ApplicationProvider>
-        </ThemeContext.Provider>
-      </SafeAreaProvider>
-    </React.Fragment>
+    <Provider store={store}>
+      <React.Fragment>
+        <SafeAreaProvider>
+          <ThemeContext.Provider value={{ theme, toggleTheme }}>
+            <IconRegistry icons={EvaIconsPack} />
+            <ApplicationProvider
+              {...eva}
+              theme={{ ...eva[theme], ...themeColors }}
+            >
+              <SignInScreen />
+            </ApplicationProvider>
+          </ThemeContext.Provider>
+        </SafeAreaProvider>
+      </React.Fragment>
+    </Provider>
   );
 };
 

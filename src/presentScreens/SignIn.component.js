@@ -1,4 +1,4 @@
-//      
+// @flow
 import React, { useState } from "react";
 import { View, Platform, TouchableWithoutFeedback } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -56,15 +56,17 @@ const styles = {
   },
 };
 
-const PersonIcon = (props        ) => {
+const PersonIcon = (props: Object) => {
   return <Icon {...props} name="person" />;
 };
 
-export const SignInFrame = (props        ) => {
+export const SignInScreen = (props: Object) => {
   const theme = useTheme();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  // const { id, setId, pw, setPw } = props;
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const onSignIn = props.onSignIn;
 
   const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -126,7 +128,7 @@ export const SignInFrame = (props        ) => {
               ...styles.buttonView,
             }}
           >
-            <Button style={styles.button}>
+            <Button style={styles.button} onPress={() => onSignIn(id, pw)}>
               <Text style={styles.buttonText}>SIGN IN</Text>
             </Button>
           </View>
