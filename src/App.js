@@ -16,11 +16,12 @@ import { SignInScreen } from "./presentScreens/SignIn.component";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeContext } from "./theme-context";
 // redux
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import rootReducer from "./redux/rootReducer";
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware));
 
 const App = (): any => {
   const [theme: string, setTheme] = React.useState("light");

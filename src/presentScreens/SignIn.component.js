@@ -133,31 +133,6 @@ export const SignInScreen = (props: Object) => {
             </Button>
           </View>
         </View>
-        {/* <View
-          style={{
-            ...styles.hero,
-            backgroundColor: theme["color-primary-600"],
-          }}
-        >
-          <LoginHero />
-        </View>
-        <View style={styles.nothero}>
-          <View
-            style={{
-              ...styles.inputView,
-            }}
-          >
-            <IdInput />
-            <PassInput />
-          </View>
-          <View
-            style={{
-              ...styles.buttonView,
-            }}
-          >
-            <TextButton text="SIGN IN" size="large" />
-          </View>
-        </View> */}
       </Layout>
     </SafeAreaView>
   );
