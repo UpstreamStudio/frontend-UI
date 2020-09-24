@@ -1,5 +1,7 @@
 // @flow
 
+import { turn } from "core-js/fn/array";
+
 // 액션 타입
 const SIGNIN: string = "user/SIGNIN";
 
@@ -36,11 +38,11 @@ type userstate = {
 const userState: userstate = {
   id: "",
   pw: "",
-  isLogin: false,
+  isLogin: true,
 };
 
 // 리듀서 생성
-export default function user(state: userstate, action: action) {
+export default function user(state: userstate = userState, action: action) {
   switch (action.type) {
     case SIGNIN:
     // 비동기 처리
