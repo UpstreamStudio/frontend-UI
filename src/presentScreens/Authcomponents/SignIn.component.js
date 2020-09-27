@@ -1,4 +1,4 @@
-//      
+// @flow
 import React, { useState } from "react";
 import { View, Platform, TouchableWithoutFeedback } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -56,15 +56,17 @@ const styles = {
   },
 };
 
-const PersonIcon = (props        ) => {
+const PersonIcon = (props: Object) => {
   return <Icon {...props} name="person" />;
 };
 
-export const SignInFrame = (props        ) => {
+export const SignInScreen = (props: Object) => {
   const theme = useTheme();
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  // const { id, setId, pw, setPw } = props;
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const onSignIn = props.onSignIn;
 
   const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -86,7 +88,7 @@ export const SignInFrame = (props        ) => {
         <View
           style={{
             ...styles.heroview,
-            backgroundColor: theme["color-primary-600"],
+            backgroundColor: theme["color-success-800"],
           }}
         >
           <Text style={styles.herotext} category="h1">
@@ -107,18 +109,18 @@ export const SignInFrame = (props        ) => {
             <Input
               style={styles.input}
               placeholder="ID"
-              value={id}
-              onChangeText={(nextValue) => setId(nextValue)}
+              value={username}
+              onChangeText={(nextValue) => setUsername(nextValue)}
               accessoryRight={PersonIcon}
             />
 
             <Input
               style={styles.input}
-              value={pw}
+              value={password}
               placeholder="Password"
               accessoryRight={renderIcon}
               secureTextEntry={secureTextEntry}
-              onChangeText={(nextValue) => setPw(nextValue)}
+              onChangeText={(nextValue) => setPassword(nextValue)}
             />
           </View>
           <View
@@ -126,36 +128,18 @@ export const SignInFrame = (props        ) => {
               ...styles.buttonView,
             }}
           >
-            <Button style={styles.button}>
+            <Button
+              style={styles.button}
+              onPress={() => {
+                onSignIn(username, password);
+                setUsername("");
+                setPassword("");
+              }}
+            >
               <Text style={styles.buttonText}>SIGN IN</Text>
             </Button>
           </View>
         </View>
-        {/* <View
-          style={{
-            ...styles.hero,
-            backgroundColor: theme["color-primary-600"],
-          }}
-        >
-          <LoginHero />
-        </View>
-        <View style={styles.nothero}>
-          <View
-            style={{
-              ...styles.inputView,
-            }}
-          >
-            <IdInput />
-            <PassInput />
-          </View>
-          <View
-            style={{
-              ...styles.buttonView,
-            }}
-          >
-            <TextButton text="SIGN IN" size="large" />
-          </View>
-        </View> */}
       </Layout>
     </SafeAreaView>
   );
