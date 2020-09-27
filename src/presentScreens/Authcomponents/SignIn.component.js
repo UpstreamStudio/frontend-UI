@@ -62,8 +62,8 @@ const PersonIcon = (props: Object) => {
 
 export const SignInScreen = (props: Object) => {
   const theme = useTheme();
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   // const { id, setId, pw, setPw } = props;
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const onSignIn = props.onSignIn;
@@ -88,7 +88,7 @@ export const SignInScreen = (props: Object) => {
         <View
           style={{
             ...styles.heroview,
-            backgroundColor: theme["color-primary-600"],
+            backgroundColor: theme["color-success-800"],
           }}
         >
           <Text style={styles.herotext} category="h1">
@@ -109,18 +109,18 @@ export const SignInScreen = (props: Object) => {
             <Input
               style={styles.input}
               placeholder="ID"
-              value={id}
-              onChangeText={(nextValue) => setId(nextValue)}
+              value={username}
+              onChangeText={(nextValue) => setUsername(nextValue)}
               accessoryRight={PersonIcon}
             />
 
             <Input
               style={styles.input}
-              value={pw}
+              value={password}
               placeholder="Password"
               accessoryRight={renderIcon}
               secureTextEntry={secureTextEntry}
-              onChangeText={(nextValue) => setPw(nextValue)}
+              onChangeText={(nextValue) => setPassword(nextValue)}
             />
           </View>
           <View
@@ -128,7 +128,14 @@ export const SignInScreen = (props: Object) => {
               ...styles.buttonView,
             }}
           >
-            <Button style={styles.button} onPress={() => onSignIn(id, pw)}>
+            <Button
+              style={styles.button}
+              onPress={() => {
+                onSignIn(username, password);
+                setUsername("");
+                setPassword("");
+              }}
+            >
               <Text style={styles.buttonText}>SIGN IN</Text>
             </Button>
           </View>
