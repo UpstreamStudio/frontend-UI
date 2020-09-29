@@ -37,11 +37,9 @@ const BottomTabBar = ({ navigation, state }) => {
     },
   };
 
-
-
   return (
     <BottomNavigation
-      indicatorStyle={{ backgroundColor: theme["color-success-600"] }}
+      indicatorStyle={{ backgroundColor: theme["color-primary-500"] }}
       style={style.bottomNav}
       selectedIndex={state.index}
       onSelect={(index) => navigation.navigate(state.routeNames[index])}
@@ -56,7 +54,10 @@ const BottomTabBar = ({ navigation, state }) => {
 };
 
 const TabNavigator = () => (
-  <Navigator initialRouteName="동료" tabBar={(props) => <BottomTabBar {...props} />}>
+  <Navigator
+    initialRouteName="동료"
+    tabBar={(props) => <BottomTabBar {...props} />}
+  >
     <Screen name="최신글" component={ULScreen} />
     <Screen name="게시판" component={ULScreen} />
     <Screen name="채팅" component={ULScreen} />

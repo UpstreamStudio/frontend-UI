@@ -28,11 +28,11 @@ export const ULDrawers = () => {
 
   const style = {
     drawerGroup: {
-      backgroundColor: theme["color-success-transparent-100"],
+      backgroundColor: theme["color-primary-transparent-100"],
     },
     // title: {
     //   flexDirection: "row",
-    //   justifyContent: "start",
+    //   justifyContent: "flex-start",
     //   alignItems: "center",
     // },
   };

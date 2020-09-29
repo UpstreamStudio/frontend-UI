@@ -17,7 +17,7 @@
   "color-basic-transparent-400": "rgba(128, 128, 128, 0.32)",
   "color-basic-transparent-500": "rgba(128, 128, 128, 0.4)",
   "color-basic-transparent-600": "rgba(128, 128, 128, 0.48)",
-
+  
   "color-primary-100": "#D1FBD4",
   "color-primary-200": "#A5F8B4",
   "color-primary-300": "#76EB96",
@@ -92,7 +92,5 @@
   "color-danger-transparent-300": "rgba(255, 75, 48, 0.24)",
   "color-danger-transparent-400": "rgba(255, 75, 48, 0.32)",
   "color-danger-transparent-500": "rgba(255, 75, 48, 0.4)",
-  "color-danger-transparent-600": "rgba(255, 75, 48, 0.48)",
-
-  "text-hint-color": "$color-primary-transparent-400"
+  "color-danger-transparent-600": "rgba(255, 75, 48, 0.48)"
 }

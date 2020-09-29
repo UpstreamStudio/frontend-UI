@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Platform, TouchableWithoutFeedback } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -37,7 +37,7 @@ const styles = {
   },
   inputView: {
     flex: 2,
-    justifyContent: "start",
+    justifyContent: "flex-start",
   },
   input: {
     marginVertical: 8,
@@ -64,7 +64,6 @@ export const SignInScreen = (props: Object) => {
   const theme = useTheme();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const { id, setId, pw, setPw } = props;
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const onSignIn = props.onSignIn;
 
@@ -83,12 +82,13 @@ export const SignInScreen = (props: Object) => {
       style={{
         ...styles.safeview,
       }}
+      edges={["top", "left", "right"]}
     >
       <Layout style={styles.container} level="1">
         <View
           style={{
             ...styles.heroview,
-            backgroundColor: theme["color-success-800"],
+            backgroundColor: theme["color-primary-600"],
           }}
         >
           <Text style={styles.herotext} category="h1">

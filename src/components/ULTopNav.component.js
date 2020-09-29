@@ -63,7 +63,7 @@ export const ULTopNav = () => {
     <TopNavigation
       title={RenderTitle}
       accessoryRight={RenderRightMenuActions}
-      style={{ backgroundColor: theme["color-success-800"] }}
+      style={{ backgroundColor: theme["color-primary-600"] }}
     />
   );
 };
