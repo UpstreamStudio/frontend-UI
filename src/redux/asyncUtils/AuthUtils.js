@@ -9,7 +9,7 @@ export async function postUser(api: string = "", userinfo: Object) {
       userinfo
     );
     return { data, status };
-  } catch (e) {
-    return e;
+  } catch (error) {
+    return error;
   }
 }

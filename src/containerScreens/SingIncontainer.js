@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { SignInScreen } from "../presentScreens/Authcomponents/SignIn.component";
-import { postUserInfoRequest } from "../redux/user";
+import { postUserInfoRequest } from "../redux/userDucks";
 import { Spinner } from "@ui-kitten/components";
 import { View } from "react-native";
 
