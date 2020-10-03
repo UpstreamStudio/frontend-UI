@@ -47,7 +47,8 @@
     "flow-remove-types": "^2.133.0",
     "flow-typed": "^3.2.1",
     "react-native-debugger-open": "^0.3.25",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "remote-redux-devtools": "^0.5.16"
   },
   "private": true
 }

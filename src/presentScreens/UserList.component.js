@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
 import { ULDrawers } from "../components/ULDrawer.component";
+import ULDrawersContainer from "../containerScreens/DrawerContainer";
 import { ULTopNav } from "../components/ULTopNav.component";
 import { Layout, useTheme } from "@ui-kitten/components";
 import { View } from "react-native";
@@ -11,6 +12,7 @@ export const ULScreen = (props: Object) => {
     console.log("ulscreenrerendered!");
   });
   console.log("mounted!");
+  const { navigation } = props;
   return (
     <SafeAreaView style={style.safeview} edges={["top", "right", "left"]}>
       <Layout style={style.layout} level="1">
@@ -18,7 +20,7 @@ export const ULScreen = (props: Object) => {
           <ULTopNav />
         </View>
         <View>
-          <ULDrawers />
+          <ULDrawersContainer navigation={navigation} />
         </View>
       </Layout>
     </SafeAreaView>

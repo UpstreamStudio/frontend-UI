@@ -38,7 +38,7 @@ const enhancers = [middlewareEnhancer];
 const composedEnhancers = composeWithDevTools(...enhancers);
 
 const store = configureStore({
-  rootReducer,
+  reducer: rootReducer,
   middleware: [sagaMiddleware, logger],
   devTools: true,
   enhancers: [composedEnhancers],
