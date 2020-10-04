@@ -28,7 +28,7 @@ const asyncDummy = async () => {
 };
 
 // 액션 타입
-const POST_USER_INFO_REQUEST: string = "userReducer/POST_USER_INFO";
+const POST_USER_INFO_REQUEST: string = "userReducer/POST_USER_INFO_REQUEST";
 const POST_USER_INFO_SUCCESS: string = "userReducer/POST_USER_INFO_SUCCESS";
 const POST_USER_INFO_ERROR: string = "userReducer/POST_USER_INFO_ERROR";
 

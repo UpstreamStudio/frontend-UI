@@ -18,7 +18,7 @@ import { ThemeContext } from "./theme-context";
 // redux
 import { createStore, applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { composeWithDevTools } from "redux-devtools-extension";
+// import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
@@ -32,22 +32,13 @@ enableAllPlugins();
 const sagaMiddleware = createSagaMiddleware();
 
 // configuring store
-const middlewares = [sagaMiddleware, logger];
-const middlewareEnhancer = applyMiddleware(...middlewares);
-const enhancers = [middlewareEnhancer];
-const composedEnhancers = composeWithDevTools(...enhancers);
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: [sagaMiddleware, logger],
   devTools: true,
-  enhancers: [composedEnhancers],
+  enhancers: [],
 });
-
-// const store = createStore(
-//   rootReducer,
-//   composeWithDevTools(applyMiddleware(sagaMiddleware, logger))
-// );
 
 sagaMiddleware.run(rootSaga);
 
