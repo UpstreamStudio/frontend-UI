@@ -9,6 +9,7 @@
     "entryPoint": "./lib/App",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "lightup",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

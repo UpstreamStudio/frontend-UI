@@ -1,7 +1,7 @@
 // @flow
-import { call, put, takeEvery, delay } from "redux-saga/effects";
-import { createAction, createReducer } from "@reduxjs/toolkit";
 import produce from "immer";
+import { call, put, takeEvery, delay, takeLatest } from "redux-saga/effects";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 import { getItem } from "./asyncUtils/Asyncstorage";
 import { postUserInfoError, postUserInfoSuccess } from "../../lib/redux/user";
 
@@ -26,50 +26,21 @@ export const getUserDataError = createAction(GET_USERS_DATA_ERROR, (error) => ({
 
 const initialState = {
   isLoading: false,
-  students: {
-    firstGraders: {
-      classOne: [
-        { name: "김가렌", number: 0, phone: "010-1234-5678" },
-        { name: "김가렌", number: 0, phone: "010-1234-5678" },
-        { name: "김가렌", number: 0, phone: "010-1234-5678" },
-        { name: "김가렌", number: 0, phone: "010-1234-5678" },
-        { name: "김가렌", number: 0, phone: "010-1234-5678" },
-      ],
-    },
-    secondGraders: {
-      classOne: [{ name: "김가렌", number: 0, phone: "010-1234-5678" }],
-    },
-    thirdGraders: {
-      classOne: [{ name: "김가렌", number: 0, phone: "010-1234-5678" }],
-    },
-  },
+  students: {},
 };
 
 export default createReducer(initialState, (builder) =>
   builder
     .addCase(getUserDataRequest, (state, action) => {
-      // return produce(state, (draft) => {
-      //   draft.isLoading = true;
-      // });
       state.isLoading = true;
     })
     .addCase(getUserDataSuccess, (state, action) => {
-      // return produce((state, draft) => {
-      //   (draft.isLoading = false),
-      //     (draft.students = {
-      //       ...action.payload,
-      //     });
-      // });
       state.isLoading = false;
       state.students = {
-        ...action.payload,
+        ...action.payload.data,
       };
     })
     .addCase(getUserDataError, (state, action) => {
-      // return produce((state, draft) => {
-      //   draft.isLoading = false;
-      //   draft.students = null;
-      // });
       state.isLoading = false;
       state.students = null;
     })
@@ -79,12 +50,12 @@ export default createReducer(initialState, (builder) =>
 function* getUserDataAsync(action) {
   try {
     const useritem = yield call(getItem, "userdata");
-    yield put(postUserInfoSuccess(useritem));
+    yield put(getUserDataSuccess(useritem));
   } catch (error) {
-    yield put(postUserInfoError());
+    yield put(getUserDataError());
   }
 }
 
 export function* dataSaga(): Object {
-  yield takeEvery(GET_USERS_DATA_REQUEST, getUserDataAsync);
+  yield takeLatest(GET_USERS_DATA_REQUEST, getUserDataAsync);
 }

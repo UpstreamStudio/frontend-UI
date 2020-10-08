@@ -1,7 +1,7 @@
 // @flow
 import { turn } from "core-js/fn/array";
 import produce from "immer";
-import { call, put, takeEvery, delay } from "redux-saga/effects";
+import { call, put, takeEvery, delay, takeLatest } from "redux-saga/effects";
 import { createAction, createReducer } from "@reduxjs/toolkit";
 import { postUser } from "./asyncUtils/AuthUtils";
 import { saveItem } from "./asyncUtils/Asyncstorage";
@@ -19,7 +19,19 @@ const asyncDummy = async () => {
       refreshToken: "demo",
       userdata: {
         firstGraders: {
-          classOne: [{ name: "김가렌", number: 1, phone: "010-3553-2136" }],
+          classOne: [
+            { name: "김가렌", number: 0, phone: "010-1234-5678" },
+            { name: "김가렌", number: 0, phone: "010-1234-5678" },
+            { name: "김가렌", number: 0, phone: "010-1234-5678" },
+            { name: "김가렌", number: 0, phone: "010-1234-5678" },
+            { name: "김가렌", number: 0, phone: "010-1234-5678" },
+          ],
+        },
+        secondGraders: {
+          classOne: [{ name: "김가렌", number: 0, phone: "010-1234-5678" }],
+        },
+        thirdGraders: {
+          classOne: [{ name: "김가렌", number: 0, phone: "010-1234-5678" }],
         },
       },
     },
@@ -49,20 +61,7 @@ type POST_USER_INFO_REQUEST_TYPE = {
 };
 
 // 액션 생성자
-// export const postUserInfoRequest = (
-//   username: string = "",
-//   password: string = ""
-// ) => {
-//   const action = {
-//     type: POST_USER_INFO_REQUEST,
-//     payload: {
-//       username,
-//       password,
-//     },
-//   };
 
-//   return action;
-// };
 export const postUserInfoRequest = createAction(
   POST_USER_INFO_REQUEST,
   (username: String, password: string) => {
@@ -75,30 +74,6 @@ export const postUserInfoRequest = createAction(
   }
 );
 
-// export const postUserInfoSuccess = (response: Object) => {
-//   const {
-//     username,
-//     email,
-//     tokenType,
-//     accessToken,
-//     refreshToken,
-//     data,
-//   } = response;
-//   const action = {
-//     type: POST_USER_INFO_SUCCESS,
-//     payload: {
-//       username,
-//       email,
-//       tokenType,
-//       accessToken,
-//       refreshToken,
-//       data,
-//     },
-//   };
-
-//   return action;
-// };
-
 export const postUserInfoSuccess = createAction(
   POST_USER_INFO_SUCCESS,
   (data: Object) => {
@@ -109,17 +84,6 @@ export const postUserInfoSuccess = createAction(
     };
   }
 );
-
-// export const postUserInfoError = (error: Object) => {
-//   const action = {
-//     type: POST_USER_INFO_ERROR,
-//     payload: {
-//       error,
-//     },
-//   };
-
-//   return action;
-// };
 
 export const postUserInfoError = createAction(
   POST_USER_INFO_ERROR,
@@ -142,6 +106,8 @@ type intialState = {
   accessToken: string,
   refreshToken: string,
   userdata: Object,
+  id: string,
+  name: string,
 };
 
 const initialState: intialState = {
@@ -155,13 +121,21 @@ const initialState: intialState = {
   accessToken: "",
   refreshToken: "",
   userdata: null,
+  id: "",
+  name: "",
 };
 
 function* postUserAsync(action) {
   const payload = action.payload;
   try {
     // {data, status} or error를 리턴
+    // const { data, status } = yield call(
+    //   postUser,
+    //   "http://125.176.221.20:8080/api/auth/signin",
+    //   { email: "eddysonkr@gmail.com", password: "12345678" }
+    // );
     const { data, status } = yield call(asyncDummy);
+    console.log(data);
     yield call(saveItem, "userdata", data);
     yield put(postUserInfoSuccess(data));
   } catch (e) {
@@ -170,96 +144,40 @@ function* postUserAsync(action) {
 }
 
 export function* userSaga(): Object {
-  yield takeEvery(POST_USER_INFO_REQUEST, postUserAsync);
+  yield takeLatest(POST_USER_INFO_REQUEST, postUserAsync);
 }
-
-// 리듀서 생성
-// export default function userReducer(
-//   state: userstate = userState,
-//   action: POST_USER_INFO_REQUEST_TYPE
-// ) {
-//   switch (action.type) {
-//     case POST_USER_INFO_REQUEST:
-//       return {
-//         ...state,
-//         isLoading: true,
-//         isLogin: false,
-//         error: null,
-//       };
-//     case POST_USER_INFO_SUCCESS:
-//       return {
-//         ...state,
-//         isLogin: true,
-//         isLoading: false,
-//         error: null,
-//         username: action.payload.username,
-//         email: action.payload.email,
-//         tokenType: action.payload.tokenType,
-//         accessToken: action.payload.accessToken,
-//         refreshToken: action.payload.refreshToken,
-//         data: action.payload.data,
-//       };
-//     case POST_USER_INFO_ERROR:
-//       return {
-//         ...state,
-//         isLoading: false,
-//         isLogin: false,
-//    dta     error: action.payload.error,
-//       };
-
-//     default:
-//       return state;
-//   }
-// }
 
 export default createReducer(initialState, (builder) => {
   builder
     .addCase(postUserInfoRequest, (state, action) => {
-      // return produce(state, (draft) => {
-      //   (draft.isLoading = true), (draft.isLogin = false), (draft.error = null);
-      // });
       state.isLoading = true;
       state.isLogin = false;
       state.error = null;
     })
     .addCase(postUserInfoSuccess, (state, action) => {
       const {
-        username,
+        // username,
         email,
         tokenType,
         accessToken,
-        refreshToken,
-        userdata,
+        // refreshToken,
+        // userdata,
+        id,
+        name,
       } = action.payload;
 
       state.isLoading = false;
       state.isLogin = true;
       state.error = null;
-      state.username = username;
+      // state.username = username;
       state.email = email;
       state.tokenType = tokenType;
       state.accessToken = accessToken;
-      state.refreshToken = refreshToken;
-      state.userdata = userdata;
-
-      // return produce((state, draft) => {
-      //   (draft.isLogin = true),
-      //     (draft.isLoading = false),
-      //     (draft.error = null),
-      //     (draft.username = username),
-      //     (draft.email = email),
-      //     (draft.tokenType = tokenType),
-      //     (draft.accessToken = accessToken),
-      //     (draft.refreshToken = refreshToken),
-      //     (draft.userdata = userdata);
-      // });
+      // state.refreshToken = refreshToken;
+      // state.userdata = userdata;
+      (state.id = id), (state.name = name);
     })
     .addCase(postUserInfoError, (state, action) => {
-      // return produce((state, draft) => {
-      //   (draft.isLoading = false),
-      //     (draft.isLogin = false),
-      //     (draft.error = action.payload.error);
-      // });
       state.isLogin = false;
       state.isLoading = false;
       state.error = action.payload.error;

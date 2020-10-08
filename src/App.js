@@ -1,7 +1,7 @@
 // @flow
 import "react-native-gesture-handler";
 import { registerRootComponent } from "expo";
-import React from "react";
+import React, { useEffect } from "react";
 import { enableAllPlugins } from "immer";
 import * as eva from "@eva-design/eva";
 import {
@@ -19,13 +19,13 @@ import { ThemeContext } from "./theme-context";
 import { createStore, applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 // import { composeWithDevTools } from "redux-devtools-extension";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 import rootReducer, { rootSaga } from "./redux/rootReducer";
+import { autoThemeToggleRequest } from "./redux/themeDucks";
 // components
 import AppContainer from "./containerScreens/AppContainer";
-
 // enable immerjs
 enableAllPlugins();
 
@@ -43,32 +43,42 @@ const store = configureStore({
 sagaMiddleware.run(rootSaga);
 
 const App = (): any => {
-  const [theme: string, setTheme] = React.useState("light");
+  const { theme } = useSelector((state) => ({
+    theme: state.themeReducer.theme,
+  }));
 
-  const toggleTheme = () => {
-    const nextTheme = (theme) => (theme === "light" ? "dark" : "light");
-    setTheme(nextTheme);
-  };
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(autoThemeToggleRequest());
+  }, []);
+
+  // const toggleTheme = () => {
+  //   const nextTheme = (theme) => (theme === "light" ? "dark" : "light");
+  //   setTheme(nextTheme);
+  // };
 
   return (
-    <Provider store={store}>
-      <React.Fragment>
-        <SafeAreaProvider>
-          <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            <IconRegistry icons={EvaIconsPack} />
-            <ApplicationProvider
-              {...eva}
-              theme={{ ...eva[theme], ...themeColors }}
-            >
-              <AppContainer />
-            </ApplicationProvider>
-          </ThemeContext.Provider>
-        </SafeAreaProvider>
-      </React.Fragment>
-    </Provider>
+    <React.Fragment>
+      <SafeAreaProvider>
+        {/* <ThemeContext.Provider value={{ theme, toggleTheme }}> */}
+        <IconRegistry icons={EvaIconsPack} />
+        <ApplicationProvider {...eva} theme={{ ...eva[theme], ...themeColors }}>
+          <AppContainer />
+        </ApplicationProvider>
+        {/* </ThemeContext.Provider> */}
+      </SafeAreaProvider>
+    </React.Fragment>
   );
 };
 
-export default App;
+const wrapApp = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
+export default wrapApp;
 
-registerRootComponent(App);
+registerRootComponent(wrapApp);
