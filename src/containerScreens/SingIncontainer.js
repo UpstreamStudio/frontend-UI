@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { SignInScreen } from "../presentScreens/Authcomponents/SignIn.component";
+import { SignInScreen } from "../presentScreens/Auths/SignIn.component";
 import { postUserInfoRequest } from "../redux/userDucks";
 import { Spinner } from "@ui-kitten/components";
 import { View } from "react-native";
@@ -18,7 +18,7 @@ function SignInContainer() {
   const renderLoading = () => {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Spinner />
+        <Spinner size="giant"/>
       </View>
     );
   };

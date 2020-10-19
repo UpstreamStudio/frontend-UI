@@ -17,8 +17,9 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { useNavigationState } from "@react-navigation/native";
-import { ULScreen } from "./UserList.component";
-import { UserStack } from "./UserStack.component";
+import { ULScreen } from "./Users/UserList.component";
+import { UserStack } from "./Users/UserStack.component";
+import {BoardStack} from './Boards/BoardStack.component';
 
 // icons
 const PeopleIcon = (props) => <Icon {...props} name="people-outline" />;
@@ -60,7 +61,7 @@ const TabNavigator = () => (
     tabBar={(props) => <BottomTabBar {...props} />}
   >
     <Screen name="최신글" component={ULScreen} />
-    <Screen name="게시판" component={ULScreen} />
+    <Screen name="게시판" component={BoardStack} />
     <Screen name="채팅" component={ULScreen} />
     <Screen name="동료" component={UserStack} />
     <Screen name="알림" component={ULScreen} />

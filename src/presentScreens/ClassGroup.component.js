@@ -29,7 +29,6 @@ const renderItem = ({ item, index }) => (
 );
 
 const styles = {
-  container: {},
   safeview: {
     flex: 1,
   },
@@ -50,8 +49,6 @@ export const ClassGroupScreen = ({ navigation, route }: Object) => {
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
-
-  const inset = useSafeArea();
 
   return (
     <SafeAreaView edges={["top", "left", "right"]} style={styles.safeview}>

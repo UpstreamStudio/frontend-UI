@@ -9,8 +9,6 @@ export const HomeScreen = ({ navigation }) => {
     navigation.navigate("Details");
   };
 
-  // const themeContext = React.useContext(ThemeContext);
-
   const inset = useSafeArea();
 
   return (
