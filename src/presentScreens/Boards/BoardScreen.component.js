@@ -57,17 +57,18 @@ const styles = {
     alignItems: 'center',
     flex: 1,
     maxHeight: 'auto',
-    maxWidth: 100,
-    marginRight: 15
+    maxWidth: 150,
+    marginRight: 20
   },
   rowView: {
     flex: 1,
     flexDirection: 'row',
-    marginRight: 10,
+    marginRight: 20,
   },
   icon: {
-    width: 15,
-    height: 15,
+    width: 20,
+    height: 20,
+    marginRight: 5
   },
   summary: {
     marginVertical: 2
@@ -81,8 +82,8 @@ const styles = {
   }
 };
 
-const loadingView = () => (
-  <View style={styles.loadingView}>
+const loadingView = (props) => (
+  <View {...props} style={styles.loadingView}>
     <Spinner size="giant" />
   </View>
 )

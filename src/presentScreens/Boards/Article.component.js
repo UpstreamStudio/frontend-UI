@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, FlatList } from "react-native";
 import {
   Divider,
   Icon,
@@ -27,6 +27,7 @@ import produce from "immer";
 import moment from 'moment';
 
 import { useSafeArea, SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView } from "react-native-gesture-handler";
 
 const dummy = new Array(8).fill({
   title: "title",
@@ -41,8 +42,6 @@ const renderItemIcon = (props) => <Icon {...props} name="hash"/>;
 const LikeIcon = (props) => <Icon {...props} name="award"/>;
 const CommentIcon = (props) => <Icon {...props} name="message-square"/>;
 const StarIcon = (props) => <Icon {...props} name="star"/>;
-
-
 
 
 const styles = {
@@ -61,16 +60,18 @@ const styles = {
     flex: 1,
     maxHeight: 50,
     maxWidth: 100
-  
   },
   rowView: {
     flex: 1,
     flexDirection: 'row'
   },
   icon: {
-    width: 15,
-    height: 15,
+    width: 20,
+    height: 20,
     marginRight: 5
+  },
+  contentView: {
+    textAlign: 'left'
   }
 };
 
@@ -216,7 +217,7 @@ export const ArticleScreen = ({ navigation, route }: Object) => {
      };
 
      return (
-      <Card {...props} style={style.card}>
+      <Card {...props} style={style.card} appearance="filled">
       <View style={style.cardView}>
       <View style={style.avatarView}>
         <Avatar shape="rounded" source={require('../../../assets/icon.png')}/>
@@ -283,13 +284,23 @@ export const ArticleScreen = ({ navigation, route }: Object) => {
       </CheckBox>
   )
 
-  const InputRight = () => (
-    <Button appearance="ghost" status="success" accessoryLeft={EnterIcon}/>
+  const InputRight = (props) => (
+    <Button {...props} appearance="ghost" status="success" accessoryLeft={EnterIcon}/>
   )
 
-  const CardFooter = () => (
-    <Input value={value} placeholder="댓글을 입력해주세요." onChangeText={nextValue => setValue(nextValue)} accessoryLeft={InputLeft} accessoryRight={InputRight}/>
-  )
+  const CardFooter = (props) => {
+    const style = {
+        input: {
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+          marginBottom: -10
+        }
+    }
+
+    return (
+    <Input {...props} style={style.input} value={value} placeholder="댓글을 입력해주세요." onChangeText={nextValue => setValue(nextValue)} accessoryLeft={InputLeft} accessoryRight={InputRight}/>
+  )}
 
 //   const listItem = ({item, index}) => (
 //       <ListItem 
@@ -298,36 +309,117 @@ export const ArticleScreen = ({ navigation, route }: Object) => {
 //       accessoryLeft={() => <Avatar shape='rouned' source={item.avatar}/>}/>
 //   )
 
+const customCard = ({item, index}) => {
+
+  const styles = {
+    card: {
+      justifyContent: 'space-around',
+      minHeight: 100,
+      paddingTop: 10,
+      paddingLeft: 15,
+      paddingRight: 15,
+      marginBottom: 10,
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+    },
+    columnView: {
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      flex: 1
+    },
+    rowView: {
+      marginLeft: 10
+    },
+    rowTwoThird: {
+      flexDirection: 'row',
+      flex: 2
+    },
+    rowOneThird: {
+      marginRight: 10
+    },
+    icon: {
+      width: 20,
+      height: 20
+    }
+  }
+  return (
+    <View style={styles.card}>
+      <View style={styles.columnView}>
+        <View style={styles.rowTwoThird}>
+          <View style={styles.rowView}>
+            <Avatar size="tiny" shape="rounded" source={require('../../../assets/icon.png')}/>
+          </View>
+          <View style={styles.rowView}>
+            <Text category="h6">{item.nickname}</Text>
+          </View>
+        </View>
+          <View style={styles.rowOneThird}>
+            <ButtonGroup appearance="outline" size="tiny">
+              <Button accessoryLeft={LikeIcon}/>
+              <Button accessoryLeft={CommentIcon}/>
+              <Button accessoryLeft={MenuIcon}/>
+            </ButtonGroup>  
+          </View>
+      </View>
+
+      <View style={styles.columnView}>
+        <View style={styles.rowView}>
+          <Text category="p1">{item.comment}</Text>
+        </View>
+      </View>
+
+      <View style={styles.columnView}>
+        <View style={styles.rowView}>
+          <Text category="p2">{item.when}</Text>
+        </View>
+        <View style={styles.rowView}>
+          <LikeIcon style={styles.icon} fill={theme['color-info-600']}/>
+        </View>
+        <View style={styles.rowView}>
+          <Text status="info" category="p1">{item.likes}</Text>
+        </View>
+      </View>
+    </View>
+  )
+}
   // 댓글 아이템 
   const cardItem = ({item, index}) => {
       
       const cardStyle = {
+        card: {
+          minHeight: 100,
+          height: 'auto',
+        },
         header: {
             flexDirection: 'row',
             justifyContent: 'flex-start',
+            alignItems: 'center',
             avatar: {
-                maxWidth: 50,
-                maxHeight: 50
+                marginRight: 5,
             },
             buttongroup: {
                 position: 'absolute',
-                right: 0
+                right: 0,
             }
         },
         footer: {
             flexDirection: 'row',
-            justifyContent: 'flex-start'
+            justifyContent: 'flex-start',
+            icon: {
+              width: 15,
+              height: 15
+            }
         },
       }
 
       const header = (props) => (
           <View {...props} style={cardStyle.header}>
-              <Avatar style={cardStyle.header.avatar} shape="rounded" require={require('../../../assets/icon.png')}/>
+              <Avatar style={cardStyle.header.avatar} size="tiny" shape="rounded" source={require('../../../assets/icon.png')}/>
               <Text category="h6">{item.nickname}</Text>
-              <ButtonGroup style={cardStyle.header.buttongroup} appearance="ghost" size="tiny">
-                  <Button appearance="ghost" accessoryLeft={LikeIcon}/>
-                  <Button appearance="ghost" accessoryLeft={CommentIcon}/>
-                  <Button appearance="ghost" accessoryLeft={MenuIcon}/>
+              <ButtonGroup style={cardStyle.header.buttongroup} appearance="outline" size="tiny">
+                  <Button accessoryLeft={LikeIcon}/>
+                  <Button accessoryLeft={CommentIcon}/>
+                  <Button accessoryLeft={MenuIcon}/>
               </ButtonGroup>
           </View>
       )
@@ -335,13 +427,13 @@ export const ArticleScreen = ({ navigation, route }: Object) => {
       const footer = (props) => (
           <View {...props} style={cardStyle.footer}>
               <Text category="p2">{item.when}</Text>
-              <LikeIcon />
+              <LikeIcon style={cardStyle.footer.icon}/>
               <Text status="info" category="p1">{item.likes}</Text>
           </View>
       )
 
       return (
-      <Card key={moment().format('hh-mm')} header={header} footer={footer}>
+      <Card style={cardStyle.card} appearance="filled" key={moment().format('hh-mm')} header={header} footer={footer}>
           <Text category="p1">{item.comment}</Text>
       </Card>
       )
@@ -357,20 +449,28 @@ export const ArticleScreen = ({ navigation, route }: Object) => {
       />
       <Divider />
       <Layout style={styles.layout}>
-        <Card header={CardHeader} footer={CardFooter}>
+        {/* <Card header={CardHeader}>
          <Text category="h3">{data.title}</Text>
          <Text category="p1">{data.content}</Text>
-         {/* <ViewPager selectedIndex={selectedIndex} onSelect={index => setSelectedIndex(index)}>
-            {_.map(data.images, (url) => (
-                <View>
-                    <Image source={{uri: url}}/>
-                </View>
-            ))}
-         </ViewPager> */}
-         <ContentFooter />
          <Divider />
-        <List data={data.commentList} renderItem={cardItem}/>
         </Card>
+        <CardFooter />
+        <List data={data.commentList} renderItem={customCard}/> */}
+      {/* <ScrollView>
+        <CardHeader />
+        <Text category="h3">{data.title}</Text>
+         <Text category="p1">{data.content}</Text>
+         <CardFooter />
+      </ScrollView> */}
+      <FlatList ListHeaderComponent={() => (
+        <Card style={styles.contentView} header={CardHeader}>
+         <Text category="h3">{data.title}</Text>
+         <Text category="p1">{data.content}</Text>
+        </Card>)}
+        data={data.commentList}
+        renderItem={customCard} 
+        />
+        <CardFooter />
       </Layout>
     </SafeAreaView>
   );
