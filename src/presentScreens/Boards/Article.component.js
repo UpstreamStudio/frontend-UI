@@ -218,59 +218,62 @@ export const ArticleScreen = ({ navigation, route }: Object) => {
 
      return (
       <Card {...props} style={style.card} appearance="filled">
-      <View style={style.cardView}>
-      <View style={style.avatarView}>
-        <Avatar shape="rounded" source={require('../../../assets/icon.png')}/>
-      </View>
-        <View style={style.info}>
-            <Text category="h6">{data.nickname || "익명"}</Text>
-            <Text category="label">{data.when}</Text>
+        <View style={style.cardView}>
+          <View style={style.avatarView}>
+            <Avatar shape="rounded" source={require('../../../assets/icon.png')}/>
+          </View>
+          <View style={style.info}>
+              <Text category="h6">{data.nickname || "익명"}</Text>
+              <Text category="label">{data.when}</Text>
+          </View>
+          <View>
+            <ButtonGroup appearance="outline" size="tiny">
+              <Button accessoryLeft={LikeIcon}>추천</Button>
+              <Button accessoryLeft={StarIcon}>즐겨찾기</Button>
+            </ButtonGroup>
+          </View>
         </View>
-        <View style={style.buttons}>
-        <ButtonGroup style={style.buttons.group} appearance="outline" size="tiny">
-        <Button accessoryLeft={LikeIcon}>추천</Button>
-        <Button accessoryLeft={StarIcon}>즐겨찾기</Button>
-        </ButtonGroup>
-        </View>
-      </View>
       </Card>
      )
   }
 
   const ContentFooter = (props) => {
+
     const style = {
         container: {
             flexDirection: 'row',
             justifyContent: 'flex-start',
+            alignItems: 'center',
             flex: 1,
+            height: 50,
+            maxWidth: 200,
             maxHeight: 50
         },
-        text: {
+        rowView: {
             flex: 1,
             flexDirection: 'row',
-            justifyContent: 'flex-start'
         },
         icon: {
-            width: 15,
-            height: 15,
+            width: 20,
+            height: 20,
             marginRight: 5
         }
     }
 
     return (
      <View {...props} style={style.container}>
-     <View style={style.text}>
-        <LikeIcon style={style.icon}/>
-        <Text category="label">{data.likes}</Text>
-     </View>
-     <View style={style.text}>
-        <CommentIcon style={style.icon}/>
-        <Text category="label">{data.comments}</Text>
-     </View>
-     <View style={style.text}>
-        <StarIcon style={style.icon}/>
-        <Text category="label">{data.subscribes}</Text>
-     </View>
+      <View style={style.rowView}>
+          <LikeIcon fill={theme['color-info-500']} style={style.icon}/>
+          <Text category="label">{data.likes}</Text>
+      </View>
+      <View style={style.rowView}>
+          <CommentIcon fill={theme['color-danger-500']} style={style.icon}/>
+          <Text category="label">{data.comments}</Text>
+      </View>
+      <View style={style.rowView}>
+          <StarIcon fill={theme['color-warning-400']} style={style.icon}/>
+          <Text category="label">{data.subscribes}</Text>
+      </View>
      </View>
     )
   }
@@ -466,6 +469,7 @@ const customCard = ({item, index}) => {
         <Card style={styles.contentView} header={CardHeader}>
          <Text category="h3">{data.title}</Text>
          <Text category="p1">{data.content}</Text>
+         <ContentFooter />
         </Card>)}
         data={data.commentList}
         renderItem={customCard} 
