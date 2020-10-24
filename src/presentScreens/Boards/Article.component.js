@@ -297,7 +297,7 @@ export const ArticleScreen = ({ navigation, route }: Object) => {
           position: 'absolute',
           bottom: 0,
           width: '100%',
-          marginBottom: -10
+          marginBottom: -5
         }
     }
 
