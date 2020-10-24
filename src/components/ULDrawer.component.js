@@ -9,6 +9,7 @@ import {
   Text,
 } from "@ui-kitten/components";
 import { View } from "react-native";
+import { NavigationHelpersContext } from "@react-navigation/native";
 
 const SmartphoneIcon = (props) => <Icon {...props} name="smartphone-outline" />;
 
@@ -22,9 +23,51 @@ const StarIcon = (props) => <Icon {...props} name="star" />;
 
 const PeopleIcon = (props) => <Icon {...props} name="people" />;
 
-export const ULDrawers = () => {
+const setTitle = (group: string, info: string | Object) => {
+  function forGroup(info) {
+    let title;
+    switch (info) {
+      case "firstGraders":
+        title = "1학년";
+        break;
+      case "secondGraders":
+        title = "2학년";
+        break;
+      default:
+        title = "3학년";
+    }
+
+    return title;
+  }
+  function forClass(info) {
+    const number = info.slice(5);
+    let title;
+
+    switch (number) {
+      case "One":
+        title = "1반";
+        break;
+      case "Two":
+        title = "2반";
+        break;
+      default:
+        title = "3반";
+    }
+
+    return title;
+  }
+
+  return group === "group" ? forGroup(info) : forClass(info);
+};
+
+export const ULDrawers = (props: Object) => {
   const [selectedIndex, setSelectedIndex] = React.useState(null);
   const theme = useTheme();
+  const { students } = props.students;
+  const gradersList = Object.keys(students);
+  const {
+    navigation: { navigate },
+  } = props;
 
   const style = {
     drawerGroup: {
@@ -37,44 +80,36 @@ export const ULDrawers = () => {
     // },
   };
 
-  const RenderTitle = (props) => (
-    <View>
-      <Text status="basic" {...props}>
-        1학년
-      </Text>
-    </View>
-  );
-
   return (
     <Drawer
       selectedIndex={selectedIndex}
       onSelect={(index) => setSelectedIndex(index)}
     >
-      <DrawerGroup
-        style={style.drawerGroup}
-        title="1학년"
-        accessoryLeft={PeopleIcon}
-      >
-        <DrawerItem title="1반" accessoryLeft={StarIcon} />
-        <DrawerItem title="2반" accessoryLeft={StarIcon} />
-      </DrawerGroup>
-      <DrawerGroup
-        style={style.drawerGroup}
-        title="2학년"
-        accessoryLeft={PeopleIcon}
-      >
-        <DrawerItem title="1반" accessoryLeft={StarIcon} />
-        <DrawerItem title="2반" accessoryLeft={StarIcon} />
-        <DrawerItem title="3반" accessoryLeft={StarIcon} />
-      </DrawerGroup>
-      <DrawerGroup
-        style={style.drawerGroup}
-        title="3학년"
-        accessoryLeft={PeopleIcon}
-      >
-        <DrawerItem title="1반" accessoryLeft={StarIcon} />
-        <DrawerItem title="2반" accessoryLeft={StarIcon} />
-      </DrawerGroup>
+      {gradersList.map((gradersInfo) => {
+        return (
+          <DrawerGroup
+          key={setTitle("group", gradersInfo)}
+            style={style.drawerGroup}
+            title={setTitle("group", gradersInfo)}
+            accessoryLeft={PeopleIcon}
+          >
+            {Object.keys(students[gradersInfo]).map((classInfo) => (
+              <DrawerItem
+                key={setTitle("class", classInfo)}
+                title={setTitle("class", classInfo)}
+                accessoryLeft={StarIcon}
+                onPress={() =>
+                  navigate("userListClass", {
+                    grade: setTitle("group", gradersInfo),
+                    className: setTitle("class", classInfo),
+                    members: students[gradersInfo][classInfo],
+                  })
+                }
+              />
+            ))}
+          </DrawerGroup>
+        );
+      })}
     </Drawer>
   );
 };

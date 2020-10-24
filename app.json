@@ -1,11 +1,15 @@
 {
   "expo": {
-    "name": "upstreamUI",
-    "slug": "upstreamUI",
-    "version": "0.0.1",
+    "name": "LightUp",
+    "slug": "LightUp",
+    "description": "communication appliaction for hyundai highschool",
+    "githubUrl": "https://github.com/UpstreamStudio/frontend-UI",
+    "primaryColor": "#17A467",
+    "version": "0.0.5",
     "entryPoint": "./lib/App",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "lightup",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

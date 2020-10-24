@@ -1,4 +1,4 @@
-//      
+// @flow
 import React, { useEffect, useState } from "react";
 import {
   StatusBar,
@@ -64,11 +64,11 @@ const styles = {
   },
 };
 
-const PersonIcon = (props        ) => {
+const PersonIcon = (props: Object) => {
   return <Icon {...props} name="person" />;
 };
 
-export const SignInScreen = (props        ) => {
+export const SignInScreen = (props: Object) => {
   const theme = useTheme();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
